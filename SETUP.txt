@@ -1,0 +1,193 @@
+================================================================================
+セットアップガイド - GitHub Actionsで自動ビルド
+================================================================================
+
+このプロジェクトをGitHubにアップロードして、自動ビルドを設定する手順です。
+
+
+【前提条件】
+================================================================================
+
+  ✓ GitHubアカウント（無料）
+  ✓ Gitがインストール済み
+
+
+【手順】
+================================================================================
+
+ステップ1: GitHubでリポジトリを作成
+────────────────────────────────────────
+
+  1. https://github.com/new にアクセス
+
+  2. リポジトリ情報を入力:
+     Repository name: credit-card-converter（例）
+     Description: クレジットカード明細変換ツール
+     Public または Private を選択
+
+  3. "Create repository" をクリック
+
+  ⚠️ 重要: "Add a README file" などはチェックしない
+            （既にファイルがあるため）
+
+
+ステップ2: ローカルからpush
+────────────────────────────────────────
+
+ターミナル/コマンドプロンプトで実行:
+
+  # プロジェクトディレクトリに移動
+  cd /path/to/wapp
+
+  # Gitリポジトリとして初期化（まだの場合）
+  git init
+
+  # ファイルをステージング
+  git add .
+
+  # 初回コミット
+  git commit -m "Initial commit: Credit card statement converter"
+
+  # リモートリポジトリを追加（URLは自分のものに変更）
+  git remote add origin https://github.com/ユーザー名/credit-card-converter.git
+
+  # プッシュ
+  git branch -M main
+  git push -u origin main
+
+
+ステップ3: GitHub Actionsを有効化
+────────────────────────────────────────
+
+自動的に有効化されますが、確認方法:
+
+  1. GitHubリポジトリページを開く
+  2. "Actions" タブをクリック
+  3. ワークフローが表示されればOK
+
+もし表示されない場合:
+  Settings → Actions → General
+  → "Allow all actions" を選択
+
+
+ステップ4: 初回リリースを作成
+────────────────────────────────────────
+
+  # バージョンタグを作成
+  git tag v1.0.0
+
+  # タグをpush
+  git push origin v1.0.0
+
+  → GitHub Actionsが自動起動
+  → 数分後、Releasesページにv1.0.0が公開される
+
+
+ステップ5: ダウンロードURLを共有
+────────────────────────────────────────
+
+  Releasesページ:
+  https://github.com/ユーザー名/credit-card-converter/releases
+
+  直接ダウンロードリンク:
+  https://github.com/ユーザー名/credit-card-converter/releases/download/v1.0.0/meisai_converter.exe
+
+
+【完了！】
+================================================================================
+
+これで:
+  ✓ GitHub Actionsで自動ビルドが設定された
+  ✓ タグをpushするだけで新しいリリースが作成される
+  ✓ EXEファイルをダウンロードURLで共有できる
+
+
+【次のステップ】
+================================================================================
+
+開発を続ける:
+  1. コードを修正
+  2. git add .
+  3. git commit -m "Update: ..."
+  4. git push
+
+新バージョンをリリース:
+  1. git tag v1.0.1
+  2. git push origin v1.0.1
+  → 自動的に新しいリリースが作成される
+
+
+【トラブルシューティング】
+================================================================================
+
+Q: git pushで認証エラーが出る
+A: Personal Access Token（PAT）を作成してください:
+   1. https://github.com/settings/tokens
+   2. "Generate new token (classic)" をクリック
+   3. "repo" にチェック
+   4. トークンをコピー
+   5. パスワードの代わりにトークンを使用
+
+Q: GitHub Actionsが失敗する
+A: Actionsタブでログを確認してください。
+   よくある原因:
+   - .github/workflows/build-exe.yml が正しくない
+   - meisai_converter_gui.py に構文エラーがある
+
+Q: Releasesが作成されない
+A: タグを正しくpushしましたか？
+   git push origin v1.0.0
+
+Q: Actions タブが表示されない
+A: Settings → Actions → General で有効化してください
+
+
+【詳細ガイド】
+================================================================================
+
+より詳しい情報:
+  - GitHub Actions: GITHUB_ACTIONS_GUIDE.txt
+  - Gitコマンド: GIT_COMMANDS.txt
+  - 配布方法: DISTRIBUTION_GUIDE.txt
+
+
+【所要時間】
+================================================================================
+
+初回セットアップ: 約10分
+  - GitHubリポジトリ作成: 2分
+  - push: 2分
+  - タグ作成・push: 1分
+  - ビルド完了待ち: 5分
+
+2回目以降のリリース: 約5分
+  - タグ作成・push: 1分
+  - ビルド完了待ち: 4分
+
+
+【コマンドまとめ】
+================================================================================
+
+初回セットアップ:
+
+  git init
+  git add .
+  git commit -m "Initial commit"
+  git remote add origin https://github.com/ユーザー名/リポジトリ名.git
+  git push -u origin main
+  git tag v1.0.0
+  git push origin v1.0.0
+
+
+バージョンアップ:
+
+  git add .
+  git commit -m "Version 1.0.1: Bug fixes"
+  git tag v1.0.1
+  git push origin main
+  git push origin v1.0.1
+
+
+================================================================================
+これだけで、Windows用EXEファイルが自動生成されます！
+================================================================================

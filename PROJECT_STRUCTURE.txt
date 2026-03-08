@@ -1,0 +1,254 @@
+================================================================================
+プロジェクト構成
+================================================================================
+
+このプロジェクトのファイル構成を説明します。
+
+
+【必須ファイル】
+================================================================================
+
+これらのファイルは削除しないでください:
+
+  meisai_converter_gui.py
+    → メインプログラム（GUIアプリケーション）
+
+  .github/workflows/build-exe.yml
+    → GitHub Actions設定ファイル（自動ビルド用）
+
+  .gitignore
+    → Gitで追跡しないファイルのリスト
+
+  pyproject.toml
+    → プロジェクト設定ファイル（uv用）
+
+  requirements.txt
+    → 依存パッケージリスト（PyInstallerのみ）
+
+
+【ドキュメントファイル】
+================================================================================
+
+ユーザー向けドキュメント:
+
+  README.md
+    → プロジェクトの概要（GitHub表示用、推奨）
+
+  QUICKSTART.txt
+    → クイックスタートガイド
+
+  GITHUB_ACTIONS_GUIDE.txt
+    → GitHub Actionsの詳しい使い方
+
+  BUILD_OPTIONS.txt
+    → ビルド方法の選択肢
+
+  DISTRIBUTION_GUIDE.txt
+    → 配布方法ガイド
+
+  VIRUS_DETECTION_SOLUTIONS.txt
+    → ウイルス誤検知の詳細対策
+
+  GIT_COMMANDS.txt
+    → Gitコマンド集
+
+  PROJECT_STRUCTURE.txt
+    → このファイル
+
+
+【実行スクリプト】
+================================================================================
+
+開発者向けの実行スクリプト:
+
+  run.bat (Windows)
+    → アプリを起動（Python/uv自動検出）
+
+  run.sh (Mac/Linux)
+    → アプリを起動（Python/uv自動検出）
+
+
+【ビルドスクリプト（オプション）】
+================================================================================
+
+ローカルビルドをする場合のみ必要:
+
+  build_gui.bat
+    → Windows用EXE作成スクリプト（ローカルビルド）
+
+  build_with_portable.bat
+    → Python Portable用ビルドスクリプト（上級者向け）
+
+  create_zip.bat
+    → パスワード付きZIP作成スクリプト（配布用）
+
+※ GitHub Actionsを使う場合は不要
+
+
+【自動生成ファイル（.gitignoreで除外）】
+================================================================================
+
+これらのファイルは自動生成されるため、Gitで追跡しません:
+
+  build/
+    → PyInstallerの一時ファイル
+
+  dist/
+    → ビルドされたEXEファイル
+
+  *.spec
+    → PyInstallerの設定ファイル
+
+  .venv/
+    → Python仮想環境
+
+  __pycache__/
+    → Pythonのキャッシュ
+
+  *.csv
+    → 出力ファイル（テストデータ）
+
+  *.zip
+    → 配布用ZIPファイル
+
+
+【ディレクトリ構造】
+================================================================================
+
+wapp/
+├── .github/
+│   └── workflows/
+│       └── build-exe.yml          # GitHub Actions設定
+│
+├── .gitignore                      # Git除外設定
+├── .envrc                          # direnv設定（オプション）
+│
+├── meisai_converter_gui.py         # メインプログラム
+│
+├── pyproject.toml                  # プロジェクト設定
+├── requirements.txt                # 依存パッケージ
+├── uv.lock                         # uvロックファイル
+│
+├── run.bat                         # 実行スクリプト（Windows）
+├── run.sh                          # 実行スクリプト（Mac/Linux）
+│
+├── build_gui.bat                   # ローカルビルド（Windows）
+├── build_with_portable.bat         # Portable版ビルド
+├── create_zip.bat                  # ZIP作成
+│
+├── README.md                       # プロジェクト概要
+├── QUICKSTART.txt                  # クイックスタート
+├── GITHUB_ACTIONS_GUIDE.txt        # GitHub Actionsガイド
+├── BUILD_OPTIONS.txt               # ビルド方法
+├── DISTRIBUTION_GUIDE.txt          # 配布ガイド
+├── VIRUS_DETECTION_SOLUTIONS.txt   # ウイルス対策
+├── GIT_COMMANDS.txt                # Gitコマンド集
+├── PROJECT_STRUCTURE.txt           # このファイル
+│
+└── README.txt                      # 旧README（削除推奨）
+
+
+【ファイルの整理】
+================================================================================
+
+シンプルにしたい場合、以下のファイルは削除可能:
+
+  削除可能（ドキュメント重複）:
+    - README.txt
+      → README.md があるため不要
+
+  削除可能（GitHub Actions使用時）:
+    - build_gui.bat
+    - build_with_portable.bat
+    - create_zip.bat
+      → ローカルビルドしない場合は不要
+
+  削除可能（詳細ガイド不要な場合）:
+    - BUILD_OPTIONS.txt
+    - VIRUS_DETECTION_SOLUTIONS.txt
+      → DISTRIBUTION_GUIDE.txt に概要がある
+
+
+最小構成の場合:
+
+  必須:
+    - meisai_converter_gui.py
+    - .github/workflows/build-exe.yml
+    - .gitignore
+    - pyproject.toml
+    - requirements.txt
+
+  推奨:
+    - README.md
+    - QUICKSTART.txt
+    - run.bat / run.sh
+
+
+【開発フロー】
+================================================================================
+
+典型的な開発フローとファイルの関係:
+
+1. 開発・テスト
+   → run.bat / run.sh を使用
+   → meisai_converter_gui.py を編集
+
+2. コミット
+   → GIT_COMMANDS.txt を参照
+   → git add, commit, push
+
+3. リリース
+   → GITHUB_ACTIONS_GUIDE.txt を参照
+   → git tag, push
+
+4. 配布
+   → DISTRIBUTION_GUIDE.txt を参照
+   → Releasesページからダウンロード
+
+
+【推奨構成】
+================================================================================
+
+GitHub Actions中心の場合:
+
+  必須:
+    ✓ meisai_converter_gui.py
+    ✓ .github/workflows/build-exe.yml
+    ✓ .gitignore
+    ✓ pyproject.toml
+    ✓ requirements.txt
+    ✓ README.md
+
+  推奨:
+    ✓ QUICKSTART.txt
+    ✓ GITHUB_ACTIONS_GUIDE.txt
+    ✓ DISTRIBUTION_GUIDE.txt
+    ✓ run.bat / run.sh
+
+  オプション:
+    - GIT_COMMANDS.txt
+    - BUILD_OPTIONS.txt
+    - VIRUS_DETECTION_SOLUTIONS.txt
+    - PROJECT_STRUCTURE.txt
+
+  不要:
+    × README.txt（README.mdで代替）
+    × build_gui.bat（GitHub Actionsで代替）
+    × build_with_portable.bat
+    × create_zip.bat
+
+
+【まとめ】
+================================================================================
+
+GitHub Actions中心の構成では:
+  - ローカルビルドスクリプトは不要
+  - ドキュメントは最小限でOK
+  - README.mdとQUICKSTART.txtがあれば十分
+
+シンプルな構成を維持することで:
+  - メンテナンスが楽
+  - 初心者にも分かりやすい
+  - プロジェクトの見通しが良い
+
+================================================================================

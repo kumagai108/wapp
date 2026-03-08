@@ -11,14 +11,19 @@ venv/
 ENV/
 env/
 
-# PyInstaller
+# PyInstaller (ローカルビルドのアーティファクト)
 build/
 dist/
 *.spec
+*.exe
+*.app
 
 # Output files (CSVファイルは除外)
 *.csv
 !example.csv
+
+# Distribution files
+*.zip
 
 # IDE
 .vscode/

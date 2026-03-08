@@ -62,7 +62,9 @@ echo.
 REM Build EXE file
 echo [4/4] Building EXE file...
 echo This may take a few minutes...
-python -m PyInstaller --onefile --windowed --name meisai_converter --icon=NONE meisai_converter_gui.py
+echo.
+echo Note: Using --noupx option to reduce false positive virus detection
+python -m PyInstaller --onefile --windowed --name meisai_converter --clean --noupx --icon=NONE meisai_converter_gui.py
 if errorlevel 1 (
     echo.
     echo ERROR: Failed to build EXE
