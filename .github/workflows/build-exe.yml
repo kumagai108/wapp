@@ -6,6 +6,9 @@ on:
       - 'v*'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
@@ -56,20 +59,33 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - name: Download all artifacts
       uses: actions/download-artifact@v4
       with:
         path: artifacts
 
+    - name: Debug - List downloaded files
+      run: |
+        echo "=== Artifacts structure ==="
+        ls -lR artifacts/
+        echo "=========================="
+
+    - name: Prepare release files
+      run: |
+        mkdir -p release
+        cp artifacts/meisai_converter-windows-x64/meisai_converter_x64.exe release/ || echo "x64 exe not found"
+        cp artifacts/meisai_converter-windows-x64/meisai_converter_x64.exe.sha256 release/ || echo "x64 sha256 not found"
+        cp artifacts/meisai_converter-windows-x86/meisai_converter_x86.exe release/ || echo "x86 exe not found"
+        cp artifacts/meisai_converter-windows-x86/meisai_converter_x86.exe.sha256 release/ || echo "x86 sha256 not found"
+        ls -la release/
+
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
-        files: |
-          artifacts/meisai_converter-windows-x64/meisai_converter_x64.exe
-          artifacts/meisai_converter-windows-x64/meisai_converter_x64.exe.sha256
-          artifacts/meisai_converter-windows-x86/meisai_converter_x86.exe
-          artifacts/meisai_converter-windows-x86/meisai_converter_x86.exe.sha256
+        files: release/*
         body: |
           ## クレジットカード明細変換ツール
 
