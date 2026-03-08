@@ -10,6 +10,7 @@ jobs:
   build:
     runs-on: windows-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
           - arch: x64
@@ -37,23 +38,11 @@ jobs:
       run: |
         python -m PyInstaller --onefile --windowed --name meisai_converter_${{ matrix.name-suffix }} --clean --noupx --icon=NONE meisai_converter_gui.py
 
-    - name: Rename EXE for consistency
-      run: |
-        cd dist
-        if (Test-Path "meisai_converter_${{ matrix.name-suffix }}.exe") {
-          Rename-Item "meisai_converter_${{ matrix.name-suffix }}.exe" "meisai_converter.exe"
-        }
-
     - name: Calculate SHA256
       run: |
         cd dist
-        certutil -hashfile meisai_converter.exe SHA256 > meisai_converter_${{ matrix.name-suffix }}.exe.sha256
+        certutil -hashfile meisai_converter_${{ matrix.name-suffix }}.exe SHA256 > meisai_converter_${{ matrix.name-suffix }}.exe.sha256
         type meisai_converter_${{ matrix.name-suffix }}.exe.sha256
-
-    - name: Rename back with arch suffix
-      run: |
-        cd dist
-        Rename-Item "meisai_converter.exe" "meisai_converter_${{ matrix.name-suffix }}.exe"
 
     - name: Upload EXE
       uses: actions/upload-artifact@v4
@@ -63,13 +52,24 @@ jobs:
           dist/meisai_converter_${{ matrix.name-suffix }}.exe
           dist/meisai_converter_${{ matrix.name-suffix }}.exe.sha256
 
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts
+
     - name: Create Release
-      if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          dist/meisai_converter_${{ matrix.name-suffix }}.exe
-          dist/meisai_converter_${{ matrix.name-suffix }}.exe.sha256
+          artifacts/meisai_converter-windows-x64/meisai_converter_x64.exe
+          artifacts/meisai_converter-windows-x64/meisai_converter_x64.exe.sha256
+          artifacts/meisai_converter-windows-x86/meisai_converter_x86.exe
+          artifacts/meisai_converter-windows-x86/meisai_converter_x86.exe.sha256
         body: |
           ## クレジットカード明細変換ツール
 
