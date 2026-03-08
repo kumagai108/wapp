@@ -1,0 +1,79 @@
+================================================================================
+Windows用EXEファイルの作成方法（Python/uvなしの環境向け）
+================================================================================
+
+Windows PCにPythonもuvも入っていない場合の選択肢：
+
+
+【方法1】GitHub Actionsで自動ビルド（推奨！最も簡単）
+────────────────────────────────────────────────────
+✓ Windows環境不要
+✓ 完全自動
+✓ 無料
+
+手順:
+  1. このコードをGitHubにpush
+  2. GitHub Actionsタブで "Build Windows EXE" を手動実行
+  3. 完了後、Artifactsからmeisai_converter.exeをダウンロード
+  4. 完成！
+
+または:
+  1. git tag v1.0.0
+  2. git push origin v1.0.0
+  3. 自動的にリリースが作成され、EXEが添付される
+
+
+【方法2】Python Portableを使う（システムにインストール不要）
+────────────────────────────────────────────────────
+✓ Windowsシステムを汚さない
+✓ 管理者権限不要
+
+手順:
+  1. Python Portableをダウンロード:
+     https://www.python.org/downloads/windows/
+     (embeddable package版をダウンロード)
+
+  2. ZIPを任意のフォルダに解凍（例: C:\python-portable）
+
+  3. build_with_portable.bat を編集:
+     set PYTHON_PATH=C:\python-portable\python.exe
+     ↑このパスを実際のパスに変更
+
+  4. build_with_portable.bat を実行
+
+  5. dist\meisai_converter.exe が作成される
+
+
+【方法3】友人/別のPCで一度だけビルド
+────────────────────────────────────────────────────
+✓ 一度作れば配布可能
+
+手順:
+  1. Pythonが入っているWindows PCを借りる
+
+  2. build_gui.bat を実行
+
+  3. 作成された dist\meisai_converter.exe を自分のPCにコピー
+
+  4. 完成！（以降、何度でも使える）
+
+
+【方法4】Pythonをインストールする
+────────────────────────────────────────────────────
+最も確実で、今後も使える方法:
+
+  1. Python公式サイトからインストール:
+     https://www.python.org/
+
+  2. インストール時に "Add Python to PATH" にチェック
+
+  3. build_gui.bat を実行
+
+  4. 完了後、Pythonはアンインストールしてもexeは動作します
+
+
+================================================================================
+推奨: 方法1（GitHub Actions）
+  - Windows環境がなくても、GitHubが自動でビルドしてくれる
+  - 最も簡単で確実
+================================================================================

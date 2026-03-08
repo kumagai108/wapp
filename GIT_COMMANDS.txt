@@ -1,0 +1,215 @@
+================================================================================
+Git コマンド ガイド
+================================================================================
+
+【初回セットアップ】
+================================================================================
+
+1. Gitの初期化:
+   git init
+
+2. ユーザー情報の設定（初回のみ）:
+   git config --global user.name "Your Name"
+   git config --global user.email "your.email@example.com"
+
+3. GitHubでリポジトリを作成:
+   - https://github.com/new にアクセス
+   - リポジトリ名を入力（例: credit-card-converter）
+   - "Create repository" をクリック
+
+4. リモートリポジトリを追加:
+   git remote add origin https://github.com/あなたのユーザー名/リポジトリ名.git
+
+
+【基本的な流れ】
+================================================================================
+
+1. 変更をステージングに追加:
+   git add .
+
+   または特定のファイルのみ:
+   git add meisai_converter_gui.py
+
+2. コミット（変更を記録）:
+   git commit -m "コミットメッセージ"
+
+   例:
+   git commit -m "Initial commit"
+   git commit -m "Add GitHub Actions workflow"
+   git commit -m "Fix bug in date parsing"
+
+3. GitHubにプッシュ（アップロード）:
+   # 初回のみ
+   git push -u origin main
+
+   # 2回目以降
+   git push
+
+
+【よく使うコマンド】
+================================================================================
+
+# 現在の状態を確認
+git status
+
+# 変更内容を確認
+git diff
+
+# コミット履歴を表示
+git log
+
+# 簡潔なログ表示
+git log --oneline
+
+# 特定のファイルを元に戻す（未コミットの変更を破棄）
+git checkout -- ファイル名
+
+# 全ての変更を破棄（注意！）
+git reset --hard
+
+
+【ブランチ操作】
+================================================================================
+
+# ブランチ一覧を表示
+git branch
+
+# 新しいブランチを作成
+git branch feature-name
+
+# ブランチを切り替え
+git checkout feature-name
+
+# ブランチを作成して切り替え（上記2つを同時に）
+git checkout -b feature-name
+
+# ブランチをマージ
+git checkout main
+git merge feature-name
+
+# ブランチを削除
+git branch -d feature-name
+
+
+【タグ操作（リリース用）】
+================================================================================
+
+# タグを作成
+git tag v1.0.0
+
+# タグ一覧を表示
+git tag
+
+# タグをプッシュ
+git push origin v1.0.0
+
+# 全てのタグをプッシュ
+git push --tags
+
+# タグを削除（ローカル）
+git tag -d v1.0.0
+
+# タグを削除（リモート）
+git push origin :refs/tags/v1.0.0
+
+
+【このプロジェクトでの実践例】
+================================================================================
+
+▼ 初回アップロード
+
+git init
+git add .
+git commit -m "Initial commit: Add credit card converter GUI"
+git remote add origin https://github.com/ユーザー名/リポジトリ名.git
+git push -u origin main
+
+
+▼ ファイルを修正した後
+
+git status                                    # 何が変更されたか確認
+git diff                                      # 変更内容を詳しく確認
+git add .                                     # 全ての変更をステージング
+git commit -m "Fix date parsing bug"         # コミット
+git push                                      # GitHubにアップロード
+
+
+▼ リリースを作成（GitHub ActionsでEXE自動ビルド）
+
+git add .
+git commit -m "Version 1.0.0 release"
+git tag v1.0.0                               # タグ作成
+git push origin main                          # コードをプッシュ
+git push origin v1.0.0                       # タグをプッシュ
+# → GitHub Actionsが自動的にEXEをビルドしてリリースに添付
+
+
+▼ バージョンアップ（v1.0.0 → v1.0.1）
+
+# コードを修正後...
+git add .
+git commit -m "Version 1.0.1: Bug fixes"
+git tag v1.0.1
+git push origin main
+git push origin v1.0.1
+# → 新しいリリースが自動作成される
+
+
+【トラブルシューティング】
+================================================================================
+
+Q: "fatal: not a git repository" エラー
+A: git init を実行してください
+
+Q: "fatal: remote origin already exists" エラー
+A: git remote remove origin
+   その後、git remote add origin ... を再実行
+
+Q: プッシュ時に認証エラー
+A: GitHubの Personal Access Token を使用してください
+   https://github.com/settings/tokens
+
+Q: 間違えてコミットした
+A: 最新のコミットを取り消し:
+   git reset --soft HEAD~1
+
+   コミットメッセージだけ変更:
+   git commit --amend -m "新しいメッセージ"
+
+Q: .gitignoreに追加したのにファイルが追跡されている
+A: キャッシュをクリア:
+   git rm -r --cached .
+   git add .
+   git commit -m "Update .gitignore"
+
+
+【便利なエイリアス（ショートカット）】
+================================================================================
+
+設定方法:
+git config --global alias.st status
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+
+使い方:
+git st      # git status と同じ
+git co main # git checkout main と同じ
+git br      # git branch と同じ
+git ci      # git commit と同じ
+
+
+================================================================================
+まとめ: 最初にやること
+================================================================================
+
+1. git init
+2. git add .
+3. git commit -m "Initial commit"
+4. GitHubでリポジトリ作成
+5. git remote add origin https://github.com/ユーザー名/リポジトリ名.git
+6. git push -u origin main
+
+これで完了！GitHub Actionsが自動でEXEをビルドしてくれます。
+
+================================================================================

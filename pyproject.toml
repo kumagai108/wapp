@@ -1,0 +1,15 @@
+[project]
+name = "meisai-converter"
+version = "1.0.0"
+description = "クレジットカード明細から確定申告用CSVを生成するツール"
+requires-python = ">=3.8"
+dependencies = []
+
+[project.optional-dependencies]
+build = [
+    "pyinstaller>=6.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
